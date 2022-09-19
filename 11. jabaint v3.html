@@ -1,0 +1,156 @@
+<canvas width="1300" height="630"> </canvas>
+
+<script>
+	
+	var pantalla = document.querySelector("canvas");
+	var pincel = pantalla.getContext("2d");
+	var permisos = false
+	var unicornio = "black"
+	var radio = 10
+
+	pincel.fillStyle = "grey"
+	pincel.fillRect (0,0,100,630)
+	pincel.fillStyle = "black"
+	pincel.strokeRect (100,0,1200,630)
+
+	//rojo
+	pincel.fillStyle = "red"
+	pincel.fillRect (10,5,35,35)
+	//azul
+	pincel.fillStyle = "blue"
+	pincel.fillRect (50,5,35,35)
+	//verde
+	pincel.fillStyle = "green"
+	pincel.fillRect (10,50,35,35)
+	//amarillo
+	pincel.fillStyle = "yellow"
+	pincel.fillRect (50,50,35,35)
+	//negro
+	pincel.fillStyle = "black"
+	pincel.fillRect (10,95,35,35)
+	//blanco
+	pincel.fillStyle = "white"
+	pincel.fillRect (50,95,35,35)
+	// menos
+	pincel.storkeStyle = "red"
+	pincel.strokeRect(10,140,35,35)
+	pincel.fillStyle = "black"
+	pincel.fillRect (12.5,152,30,10)
+	// mas
+	pincel.storkeStyle = "green"
+	pincel.strokeRect(50,140,35,35)
+	pincel.fillStyle = "black"
+	pincel.fillRect (52.5,152,30,10)
+	pincel.fillRect (62.5,142.5,10,30)
+
+	
+
+	function circulo(x,y,unicornio ) {
+
+        if(permisos) {
+
+            pincel.fillStyle = unicornio;
+            pincel.beginPath();
+            pincel.arc(x, y, radio, 0, 2 * 3.14);
+            pincel.fill();
+
+        }
+    }
+
+    function permitir () {
+    	permisos = true
+    }
+    function denegar () { 
+    	permisos = false
+    }
+
+    function interfas (cordX,cordY) {
+    	if (cordX < 100 + radio) {
+    		return false
+    	} else {
+    		return true
+    	}
+    }
+
+	function capturaMovimiento (evento) {
+
+	var x = evento.pageX - pantalla.offsetLeft;
+	var y = evento.pageY - pantalla.offsetTop;
+	//console.log (x,y)
+
+	if (interfas(x,y)) {
+		circulo(x,y,unicornio)
+	}
+}
+
+	function seleccionarColor(evento) {
+		x = evento.pageX - pantalla.offsetLeft
+		y = evento.pageY - pantalla.offsetTop
+	//red
+		if ((x > 10)&&
+			(x < 45)&&
+			(y > 10)&&
+			(y < 45)) {
+			unicornio = "red"
+		}
+	//blue
+		if ((x > 50)&&
+			(x < 85)&&
+			(y > 10)&&
+			(y < 45)) {
+			unicornio = "blue"
+		}
+	//green
+		if ((x > 10)&&
+			(x < 45)&&
+			(y > 50)&&
+			(y < 85)) {
+			unicornio = "green"
+		}
+	//yellow
+		if ((x > 50)&&
+			(x < 85)&&
+			(y > 50)&&
+			(y < 85)) {
+			unicornio = "yellow"
+		}
+	//negro
+		if ((x > 10)&&
+			(x < 45)&&
+			(y > 95)&&
+			(y < 130)) {
+			unicornio = "black"
+		}
+	//blanco
+		if ((x > 50)&&
+			(x < 85)&&
+			(y > 95)&&
+			(y < 130)) {
+			unicornio = "white"
+		}
+	//radio
+		if ((x > 10)&&
+			(x < 45)&&
+			(y > 140)&&
+			(y < 175)) {
+			
+			if (radio > 6)
+				radio = radio - 5 
+		}
+
+		if ((x > 50)&&
+			(x < 85)&&
+			(y > 140)&&
+			(y < 175)) {
+
+			radio = radio + 5 
+		}
+	}
+
+	pantalla.onmousemove = capturaMovimiento
+	pantalla.onmousedown = permitir
+	pantalla.onmouseup = denegar
+	pantalla.onclick = seleccionarColor;
+
+
+</script>
